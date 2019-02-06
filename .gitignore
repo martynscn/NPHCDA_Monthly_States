@@ -1,6 +1,6 @@
 .RData
 .Rhistory
 *.Rproj
-.RDS
+*.RDS
 .Rproj.user/
 data/
