@@ -15,6 +15,7 @@ server_version <- config$ServerVersion
 
 first_time <- "yes" #Enter "yes" or "no"
 currentDataOnly <- "yes"
+DXXs <- read.csv(file = "dataelementsid.csv", header = TRUE, sep = ",", as.is = TRUE)
 
 if(server_version == "yes") {
   setwd("data")
@@ -23,7 +24,6 @@ if(server_version == "yes") {
   setwd("~/R_projects/NPHCDA_Monthly_States/data/")
   source("~/R_projects/R programming/DHIS2 data extract/Functions/collect_return_period_fxn2.R")
 }
-DXXs <- read.csv(file = "dataelementsid.csv", header = TRUE, sep = ",", as.is = TRUE)
 files <- list.files()
 no_of_files <- length(files) 
 
