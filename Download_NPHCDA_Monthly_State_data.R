@@ -7,11 +7,17 @@ library("dplyr",quietly = TRUE,warn.conflicts = FALSE)
 library("XML",quietly = TRUE,warn.conflicts = FALSE)
 library("RCurl",quietly = TRUE,warn.conflicts = FALSE)
 library("tibble", quietly = TRUE, warn.conflicts = FALSE)
+library("slackr", quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE)
 
 config <- config::get()
 username <- config$NHMISInstanceUsername
 password <- config$NHMISInstancePassword
 server_version <- config$ServerVersion
+
+Environment <- config$Environment
+incoming_webhook_url <- config$slackIncomingWebHookUrl
+api_token <- config$slackAPIToken
+slackrSetup(channel = "r_notifications1", username = "martynscn",incoming_webhook_url = incoming_webhook_url,api_token = api_token)
 
 first_time <- "yes" #Enter "yes" or "no"
 currentDataOnly <- "yes"
@@ -399,6 +405,12 @@ if(currentDataOnly == "no") {
 write.csv(as.data.frame(RRData),file = ind_file_name,row.names = FALSE)
 write.csv(succesfuldxs_dx_names, "successfulDataElements.csv", row.names = FALSE)
 write.csv(unsuccesfuldxs_dx_names, "unSuccessfulDataElements.csv", row.names = FALSE)
+SuccessfulDataElements <- succesfuldxs_dx_names$Name
+UnSuccessfulDataElements <- unsuccesfuldxs_dx_names$Name
+
+slackr_bot(SuccessfulDataElements)
+slackr_bot(UnSuccessfulDataElements)
+
 setwd("..")
 cat(as.character(Sys.time()), "==","Script Download NHMIS Monthly State data completed successfully\n\n----------\n")
 
