@@ -397,6 +397,8 @@ if(currentDataOnly == "no") {
 }
 
 write.csv(as.data.frame(RRData),file = ind_file_name,row.names = FALSE)
+write.csv(succesfuldxs_dx_names, "successfulDataElements.csv", row.names = FALSE)
+write.csv(unsuccesfuldxs_dx_names, "unSuccessfulDataElements.csv", row.names = FALSE)
 setwd("..")
 cat(as.character(Sys.time()), "==","Script Download NHMIS Monthly State data completed successfully\n\n----------\n")
 
