@@ -91,6 +91,7 @@ succesfuldxs <- NULL
 alldx <- NULL
 
 for (dx in somedx) {
+  # dx <- somedx[1]
   last.dx <- NULL
   last.indicatorName <- NULL
   indicatorName <- DXXs[DXXs[,"ID"] == dx,"Name"][1]

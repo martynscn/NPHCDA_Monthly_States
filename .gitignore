@@ -4,3 +4,4 @@
 *.RDS
 .Rproj.user/
 data/
+.Rproj.user
