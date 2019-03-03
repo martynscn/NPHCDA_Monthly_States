@@ -1,13 +1,14 @@
 cat(as.character(Sys.time()), "==","Script Download NPHCDA monthly data for state started successfully\n")
 
 library("httr",quietly = TRUE,warn.conflicts = FALSE)
-library("rjson",quietly = TRUE,warn.conflicts = FALSE) 
+library("rjson",quietly = TRUE,warn.conflicts = FALSE)
+library("plyr",quietly = TRUE,warn.conflicts = FALSE)
 library("dplyr",quietly = TRUE,warn.conflicts = FALSE)
 library("XML",quietly = TRUE,warn.conflicts = FALSE)
 library("RCurl",quietly = TRUE,warn.conflicts = FALSE)
 library("tibble", quietly = TRUE, warn.conflicts = FALSE)
 library("slackr", quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE) 
-library("plyr",quietly = TRUE,warn.conflicts = FALSE)
+
 
 analysis_type <- "NPHCDA monthly analysis data elements and indicators" # See https://docs.google.com/spreadsheets/d/1KmFhGruQuaq2ZWlQfshFb9Z5StdicEuCKPFCz4gGnsU/edit#gid=282661351 for more information
 
