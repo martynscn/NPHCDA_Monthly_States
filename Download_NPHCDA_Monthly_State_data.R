@@ -1,13 +1,15 @@
 cat(as.character(Sys.time()), "==","Script Download NPHCDA monthly data for state started successfully\n")
 
 library("httr",quietly = TRUE,warn.conflicts = FALSE)
-library("rjson",quietly = TRUE,warn.conflicts = FALSE)
-library("plyr",quietly = TRUE,warn.conflicts = FALSE)
+library("rjson",quietly = TRUE,warn.conflicts = FALSE) 
 library("dplyr",quietly = TRUE,warn.conflicts = FALSE)
 library("XML",quietly = TRUE,warn.conflicts = FALSE)
 library("RCurl",quietly = TRUE,warn.conflicts = FALSE)
 library("tibble", quietly = TRUE, warn.conflicts = FALSE)
-library("slackr", quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE)
+library("slackr", quietly = TRUE, warn.conflicts = FALSE, verbose = FALSE) 
+library("plyr",quietly = TRUE,warn.conflicts = FALSE)
+
+analysis_type <- "NPHCDA monthly analysis data elements and indicators" # See https://docs.google.com/spreadsheets/d/1KmFhGruQuaq2ZWlQfshFb9Z5StdicEuCKPFCz4gGnsU/edit#gid=282661351 for more information
 
 config <- config::get()
 username <- config$NHMISInstanceUsername
@@ -21,7 +23,10 @@ slackrSetup(channel = "r_notifications1", username = "martynscn",incoming_webhoo
 
 first_time <- "yes" #Enter "yes" or "no"
 currentDataOnly <- "yes"
-DXXs <- read.csv(file = "dataelementsid.csv", header = TRUE, sep = ",", as.is = TRUE)
+# DXXs <- read.csv(file = "dataelementsid.csv", header = TRUE, sep = ",", as.is = TRUE)
+DXXs2 <- read.csv(file = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQHotfnzMUKhZmxW3Rwtc0jQ_uNQdJ6hJhyhnWOiQSIuV_tK0psMM4T8ofxuMTKiV03fcbJ8avwvQm3/pub?gid=282661351&single=true&output=csv",
+                  header = TRUE, sep = ",", as.is = TRUE)
+DXXs <- filter(DXXs2, Analysis.type == analysis_type) %>% select(c(1:4))
 
 if(server_version == "yes") {
   setwd("data")
@@ -48,7 +53,7 @@ priorYears <- as.character(seq(2017,currentYear - 2))
 
 if(first_time == "yes" || currentDataOnly == "yes") {
   pe <- paste(paste0(priorYears,collapse = ";"),
-              collect_return_period2(sDate = "2017-1-1", eDate = Sys.Date(), oneYeartoOmit = 2019, omitMultipleYears = FALSE, extraction_type = "NHMIS_MONTHLY"),
+              collect_return_period2(sDate = paste0(currentYear - 1,"-1-1"), eDate = Sys.Date(), oneYeartoOmit = currentYear, omitMultipleYears = FALSE, extraction_type = "NHMIS_MONTHLY"),
               sep = ";",collapse = ";")
 } else if (first_time == "no" && currentDataOnly == "no") {
   pe <- "LAST_MONTH"
@@ -352,7 +357,20 @@ Rdata_sort <-
       "September 2018",
       "October 2018",
       "November 2018",
-      "December 2018"
+      "December 2018",
+      "2019",
+      "January 2019",
+      "February 2019",
+      "March 2019",
+      "April 2019",
+      "May 2019",
+      "June 2019",
+      "July 2019",
+      "August 2019",
+      "September 2019",
+      "October 2019",
+      "November 2019",
+      "December 2019"
     )
   ), `Organisation unit`)
 
